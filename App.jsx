@@ -29,9 +29,8 @@ const NUTRIENT_FIELDS = [
 ];
 
 function weekDates(anchor) {
-  // Monday-start week containing anchor
   const d = new Date(anchor + "T12:00:00");
-  const dow = (d.getDay() + 6) % 7; // Mon=0
+  const dow = (d.getDay() + 6) % 7;
   const mon = new Date(d);
   mon.setDate(d.getDate() - dow);
   return Array.from({ length: 7 }, (_, i) => {
@@ -108,7 +107,7 @@ function MacroBar({ label, used, goal, unit }) {
 
 /* ---------- main app ---------- */
 export default function FoodTracker() {
-  const [data, setData] = useState(null); // {foods, recipes, goals, logs}
+  const [data, setData] = useState(null);
   const [tab, setTab] = useState("today");
   const [date, setDate] = useState(todayKey());
   const [status, setStatus] = useState("Loading your data…");
@@ -123,7 +122,7 @@ export default function FoodTracker() {
         const res = await window.storage.get(STORE_KEY);
         if (res && res.value) loaded = JSON.parse(res.value);
       } catch (e) {
-        // first run — nothing saved yet
+        // first run
       }
       setData(
         loaded || { foods: [], recipes: [], goals: { ...DEFAULT_GOALS }, logs: {} }
@@ -172,7 +171,7 @@ export default function FoodTracker() {
       <Style />
       <header className="header">
         <div>
-          <div className="app-name">highvibe</div>
+          <div className="app-name">Tidewater</div>
           <div className="app-sub">food &amp; nutrition tracker</div>
         </div>
         <input
@@ -452,15 +451,14 @@ function TodayView({ data, date, log, totals, update, goLibrary }) {
 
 /* ================= LIBRARY ================= */
 function LibraryView({ data, update }) {
-  const [mode, setMode] = useState("foods"); // foods | recipes
+  const [mode, setMode] = useState("foods");
   const [form, setForm] = useState(EMPTY_FOOD);
   const [editingId, setEditingId] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
-  // recipe builder
   const [rName, setRName] = useState("");
   const [rServing, setRServing] = useState("");
-  const [rIngredients, setRIngredients] = useState([]); // {foodId, servings}
+  const [rIngredients, setRIngredients] = useState([]);
   const [rEditingId, setREditingId] = useState(null);
   const [showRForm, setShowRForm] = useState(false);
 
@@ -1016,6 +1014,10 @@ function Style() {
       .weight-input input { width: 92px; border: 2px solid var(--line); border-radius: 10px; padding: 8px; font: inherit; font-weight: 800; text-align: right; }
       .unit { font-weight: 800; color: var(--ink-soft); font-size: 13px; }
       .weight-summary { background: var(--wash); border-radius: 12px; padding: 10px 14px; font-weight: 700; margin-bottom: 10px; font-size: 14px; }
+
+      .seg { display: flex; gap: 4px; background: #DDEAF5; padding: 4px; border-radius: 12px; margin-bottom: 12px; }
+      .seg-btn { flex: 1; border: none; background: transparent; padding: 10px 0; border-radius: 10px; font: inherit; font-weight: 800; font-size: 15px; color: var(--ink-soft); cursor: pointer; }
+      .seg-btn.active { background: var(--card); color: var(--primary-deep); box-shadow: 0 2px 6px rgba(36,90,138,0.15); }
 
       @media (max-width: 480px) {
         .form-grid, .goal-grid { grid-template-columns: 1fr; }
