@@ -172,7 +172,7 @@ export default function FoodTracker() {
       <Style />
       <header className="header">
         <div>
-          <div className="app-name">HighVibe</div>
+          <div className="app-name">highvibe</div>
           <div className="app-sub">food &amp; nutrition tracker</div>
         </div>
         <input
